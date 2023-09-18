@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const ACRemoteTelemetryClient = require("ac-remote-telemetry-client");
+const fs = require("fs");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -36,8 +37,8 @@ app.on("ready", createWindow);
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
+  client.stop();
   if (process.platform !== "darwin") {
-    client.stop();
     app.quit();
   }
 });
@@ -53,16 +54,23 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 const client = new ACRemoteTelemetryClient();
 
 // Implement desired listeners
 //call client.handshake every time we connect to a server
-client.on("HANDSHAKER_RESPONSE", (data) => console.log(data));
-client.on("RT_CAR_INFO", (data) => {
-  console.log(data);
+client.on("HANDSHAKER_RESPONSE", (data) => {
+  
 });
+
+client.on("RT_CAR_INFO", (data) => {
+  //console.log(data);
+});
+
 client.on("RT_LAP", (data) => {
-  console.log(data);
+  //console.log(data);
 });
 
 ipcMain.handle("connectToServer", () => {
@@ -71,12 +79,22 @@ ipcMain.handle("connectToServer", () => {
   client.start();
   // Send initial handshake
   client.handshake();
-  // Subscribe to desired updates
+  // Subscribe to desired updates.
+  //I can only do 1 of the bellow at a time
   client.subscribeUpdate();
-  client.subscribeSpot();
+  //client.subscribeSpot();
 });
 
-ipcMain.handle("stopConnection", () => {
+ipcMain.handle("writeFile", () => {
   // Stop listening
-
+  client.stop()
+  
 });
+
+
+
+//example code to save data to JSON
+//let rtCarData = JSON.parse('[]');
+//rtCarData.push(data)
+//console.log("wrote to RT_LAP");
+//fs.writeFileSync(path.join(__dirname,"../example-data/rt-lap-data.json"), JSON.stringify(rtCarData))

@@ -6,6 +6,6 @@ function connectButtonPressed(){
 }
 
 function stopButtonPressed(){
-    console.log("invoking end server");
-    ipcRenderer.invoke('stopConnection')
+    console.log("invoking write to file");
+    ipcRenderer.invoke('writeFile')
 }
