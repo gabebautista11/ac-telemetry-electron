@@ -56,17 +56,15 @@ app.on("activate", () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 const client = new ACRemoteTelemetryClient();
 
 // Implement desired listeners
 //call client.handshake every time we connect to a server
-client.on("HANDSHAKER_RESPONSE", (data) => {
-  
-});
+client.on("HANDSHAKER_RESPONSE", (data) => {});
 
 client.on("RT_CAR_INFO", (data) => {
   //console.log(data);
+  mainWindow.webContents.send("car-data-update", data);
 });
 
 client.on("RT_LAP", (data) => {
@@ -87,11 +85,8 @@ ipcMain.handle("connectToServer", () => {
 
 ipcMain.handle("writeFile", () => {
   // Stop listening
-  client.stop()
-  
+  client.stop();
 });
-
-
 
 //example code to save data to JSON
 //let rtCarData = JSON.parse('[]');

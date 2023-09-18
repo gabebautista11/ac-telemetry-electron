@@ -1,3 +1,4 @@
+const { ipcRenderer } = require("electron");
 const ExampleCarDataParser = require("../src/data-parsers/example-car-data-parser");
 
 let canvas = document.getElementById("course-canvas");
@@ -33,3 +34,7 @@ function drawAllPositions(ctx, track) {
   });
   ctx.stroke();
 }
+
+ipcRenderer.on("car-data-update", (event, data) => {
+  console.log(`got car data ${data}`);
+});
