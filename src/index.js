@@ -37,6 +37,7 @@ app.on("ready", createWindow);
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
+    client.stop();
     app.quit();
   }
 });
@@ -58,26 +59,24 @@ const client = new ACRemoteTelemetryClient();
 //call client.handshake every time we connect to a server
 client.on("HANDSHAKER_RESPONSE", (data) => console.log(data));
 client.on("RT_CAR_INFO", (data) => {
-  //console.log(data)
+  console.log(data);
 });
 client.on("RT_LAP", (data) => {
-  //console.log(data)
+  console.log(data);
 });
-
-// Start listening
-client.start();
-
-// Send initial handshake
 
 ipcMain.handle("connectToServer", () => {
   console.log("connect to server received");
+  // Start listening
+  client.start();
+  // Send initial handshake
   client.handshake();
+  // Subscribe to desired updates
   client.subscribeUpdate();
+  client.subscribeSpot();
 });
 
-// Subscribe to desired updates
+ipcMain.handle("stopConnection", () => {
+  // Stop listening
 
-//client.subscribeSpot();
-
-// Stop listening
-//client.stop();
+});
