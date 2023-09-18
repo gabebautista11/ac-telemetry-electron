@@ -1,4 +1,3 @@
-const { ipcRenderer } = require("electron");
 const ExampleCarDataParser = require("../src/data-parsers/example-car-data-parser");
 
 let canvas = document.getElementById("course-canvas");
@@ -9,6 +8,7 @@ track = new Image();
 track.src = "../tracks/red_bull_ring_gp/red_bull_ring.png";
 
 track.onload = function () {
+  //TODO make image smoother
   ctx.drawImage(track, 0, 0);
   drawAllPositions(ctx, track);
 };

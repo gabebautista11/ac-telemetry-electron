@@ -20,7 +20,7 @@ const createWindow = () => {
       enableRemoteModule: true,
     },
   });
-
+  mainWindow.maximize();
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
@@ -38,9 +38,9 @@ app.on("ready", createWindow);
 // explicitly with Cmd + Q.
 app.on("window-all-closed", () => {
   client.stop();
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  //if (process.platform !== "darwin") {
+  app.quit();
+  //}
 });
 
 app.on("activate", () => {
