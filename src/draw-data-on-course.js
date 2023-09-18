@@ -15,7 +15,7 @@ function drawAllPositions(ctx, track) {
   let exampleData = new ExampleCarDataParser();
   data = exampleData.getJsonArray;
   console.log(data);
-  ctx.translate(620.875, 401.055);
+  ctx.translate(620.875, 401.055); //this can be found in the map.ini file!
   ctx.beginPath();
   data.forEach((element, i) => {
     let xPos = element.carCoordinatesX;
