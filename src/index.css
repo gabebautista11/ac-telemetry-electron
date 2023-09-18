@@ -5,3 +5,7 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+
+#course-canvas{
+  border: 1px solid black;
+}
