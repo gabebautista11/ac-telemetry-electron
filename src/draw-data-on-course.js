@@ -2,7 +2,8 @@ const ExampleCarDataParser = require("../src/data-parsers/example-car-data-parse
 
 let canvas = document.getElementById("course-canvas");
 ctx = canvas.getContext("2d");
-
+ctx.lineCap = "round";
+ctx.lineJoin = "round";
 track = new Image();
 track.src = "../tracks/red_bull_ring_gp/red_bull_ring.png";
 
@@ -17,9 +18,11 @@ function drawAllPositions(ctx, track) {
   console.log(data);
   ctx.translate(620.875, 401.055); //this can be found in the map.ini file!
   ctx.beginPath();
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
   data.forEach((element, i) => {
-    let xPos = element.carCoordinatesX;
-    let ZPos = element.carCoordinatesZ;
+    let xPos = element.carCoordinatesX; //X
+    let ZPos = element.carCoordinatesZ; //Y
     console.log(xPos, " ", ZPos);
     if (i == 0) {
       ctx.moveTo(xPos, ZPos);
