@@ -63,7 +63,7 @@ const client = new ACRemoteTelemetryClient();
 client.on("HANDSHAKER_RESPONSE", (data) => {});
 
 client.on("RT_CAR_INFO", (data) => {
-  //console.log(data);
+  console.log(data);
   mainWindow.webContents.send("car-data-update", data);
 });
 
