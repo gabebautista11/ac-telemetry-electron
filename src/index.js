@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const ACRemoteTelemetryClient = require("ac-remote-telemetry-client");
 const fs = require("fs");
+const ExampleCarDataParser = require("../src/data-parsers/example-car-data-parser");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -15,9 +16,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
+      contextIsolation: true,
     },
   });
   mainWindow.maximize();
@@ -83,13 +82,8 @@ ipcMain.handle("connectToServer", () => {
   //client.subscribeSpot();
 });
 
-ipcMain.handle("writeFile", () => {
-  // Stop listening
-  client.stop();
+ipcMain.handle("getCarDataJson", () => {
+  let exampleData = new ExampleCarDataParser();
+  data = exampleData.getJsonArray;
+  return data;
 });
-
-//example code to save data to JSON
-//let rtCarData = JSON.parse('[]');
-//rtCarData.push(data)
-//console.log("wrote to RT_LAP");
-//fs.writeFileSync(path.join(__dirname,"../example-data/rt-lap-data.json"), JSON.stringify(rtCarData))

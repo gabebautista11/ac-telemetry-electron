@@ -1,6 +1,4 @@
-const ExampleCarDataParser = require("../src/data-parsers/example-car-data-parser");
-
-let canvas = document.getElementById("course-canvas");
+let canvas = document.querySelector(".track-canvas");
 ctx = canvas.getContext("2d");
 ctx.lineCap = "round";
 ctx.lineJoin = "round";
@@ -13,10 +11,8 @@ track.onload = function () {
   drawAllPositions(ctx, track);
 };
 
-function drawAllPositions(ctx, track) {
-  let exampleData = new ExampleCarDataParser();
-  data = exampleData.getJsonArray;
-  console.log(data);
+async function drawAllPositions(ctx, track) {
+  let data = await window.getExampleData.exampleDataJSON();
   ctx.translate(620.875, 401.055); //this can be found in the map.ini file!
   ctx.beginPath();
   ctx.lineCap = "round";
@@ -34,7 +30,3 @@ function drawAllPositions(ctx, track) {
   });
   ctx.stroke();
 }
-
-ipcRenderer.on("car-data-update", (event, data) => {
-  console.log(`got car data ${data}`);
-});
