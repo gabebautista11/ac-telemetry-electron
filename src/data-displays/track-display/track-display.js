@@ -7,9 +7,15 @@ track.src = "../tracks/red_bull_ring_gp/red_bull_ring.png";
 
 track.onload = function () {
   //TODO make image smoother
+
   ctx.drawImage(track, 0, 0);
+
   drawAllPositions(ctx, track);
 };
+
+async function drawPointOnTrack(ctx, tracks, factor) {
+  //I will use this function to draw points on the track
+}
 
 async function drawAllPositions(ctx, track) {
   let data = await window.getExampleData.exampleDataJSON();

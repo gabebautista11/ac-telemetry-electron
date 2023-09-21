@@ -18,7 +18,6 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
     },
-
   });
   mainWindow.maximize();
   // and load the index.html of the app.
