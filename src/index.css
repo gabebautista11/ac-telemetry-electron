@@ -4,38 +4,3 @@ body {
   margin: 0px;
   padding: 0px;
 }
-
-.layout-container {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  grid-template-areas:
-    "header header header header header header"
-    "top-left top-left top-left right right right"
-    "top-left top-left top-left right right right"
-    "top-left top-left top-left right right right"
-    "top-left top-left top-left right right right"
-    "bottom-left bottom-left bottom-left right right right"
-    "bottom-left bottom-left bottom-left right right right"
-    "bottom-left bottom-left bottom-left right right right"
-    "bottom-left bottom-left bottom-left right right right";
-  row-gap: 5px;
-  column-gap: 5px;
-}
-
-.header {
-  grid-area: header;
-  border: 1px solid black;
-}
-.top-left {
-  grid-area: top-left;
-  border: 1px solid black;
-}
-.bottom-left {
-  grid-area: bottom-left;
-  border: 1px solid black;
-}
-.right {
-  grid-area: right;
-  border: 1px solid black;
-}

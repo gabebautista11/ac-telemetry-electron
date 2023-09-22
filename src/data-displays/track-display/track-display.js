@@ -3,7 +3,7 @@ ctx = canvas.getContext("2d");
 ctx.lineCap = "round";
 ctx.lineJoin = "round";
 track = new Image();
-track.src = "../tracks/red_bull_ring_gp/red_bull_ring.png";
+track.src = "../../../tracks/red_bull_ring_gp/red_bull_ring.png";
 
 track.onload = function () {
   //TODO make image smoother

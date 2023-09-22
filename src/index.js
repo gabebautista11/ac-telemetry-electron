@@ -2,7 +2,8 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const ACRemoteTelemetryClient = require("ac-remote-telemetry-client");
 const fs = require("fs");
-const ExampleCarDataParser = require("../src/data-parsers/example-car-data-parser");
+
+const { getCarData } = require("./data-displays/track-display/trackController");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -25,6 +26,28 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  trackWindow();
+};
+
+const trackWindow = () => {
+  const trackWindow = new BrowserWindow({
+    width: 800,
+    height: 800,
+    webPreferences: {
+      preload: path.join(
+        __dirname,
+        "./data-displays/track-display/trackPreloadScript.js"
+      ),
+      contextIsolation: true,
+    },
+  });
+
+  trackWindow.loadFile(
+    path.join(__dirname, "./data-displays/track-display/track-display.html")
+  );
+
+  trackWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -82,8 +105,4 @@ ipcMain.handle("connectToServer", () => {
   //client.subscribeSpot();
 });
 
-ipcMain.handle("getCarDataJson", () => {
-  let exampleData = new ExampleCarDataParser();
-  data = exampleData.getJsonArray;
-  return data;
-});
+getCarData();
