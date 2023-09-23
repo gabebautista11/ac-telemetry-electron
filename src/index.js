@@ -28,6 +28,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 
   trackWindow();
+  graphWindow();
 };
 
 const trackWindow = () => {
@@ -48,6 +49,25 @@ const trackWindow = () => {
   );
 
   trackWindow.webContents.openDevTools();
+};
+
+const graphWindow = () => {
+  const graphWindow = new BrowserWindow({
+    width: 800,
+    height: 800,
+    webPreferences: {
+      preload: path.join(
+        __dirname,
+        "./data-displays/graph-displays/graphPreloadScript.js"
+      ),
+      contextIsolation: true,
+    },
+  });
+
+  graphWindow.loadFile(
+    path.join(__dirname, "./data-displays/graph-displays/graph-displays.html")
+  );
+  graphWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
