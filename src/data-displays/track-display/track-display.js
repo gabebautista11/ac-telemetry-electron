@@ -9,7 +9,6 @@ track.onload = function () {
   //TODO make image smoother
 
   ctx.drawImage(track, 0, 0);
-
   drawAllPositions(ctx, track);
 };
 
