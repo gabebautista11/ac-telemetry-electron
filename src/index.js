@@ -28,7 +28,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 
   trackWindow();
-  graphWindow();
+  // graphWindow();
 };
 
 const trackWindow = () => {

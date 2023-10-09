@@ -1,37 +1,32 @@
-let canvas = document.querySelector(".track-canvas");
-ctx = canvas.getContext("2d");
-ctx.lineCap = "round";
-ctx.lineJoin = "round";
-track = new Image();
-track.src = "../../../tracks/red_bull_ring_gp/red_bull_ring.png";
+app = new PIXI.Application({ background: 0xb2beb5, antialias: true });
 
-track.onload = function () {
-  //TODO make image smoother
-
-  ctx.drawImage(track, 0, 0);
-  drawAllPositions(ctx, track);
-};
-
-async function drawPointOnTrack(ctx, tracks, factor) {
-  //I will use this function to draw points on the track
+async function drawTrack() {
+  let trackAsset = await PIXI.Assets.load(
+    "../../../tracks/red_bull_ring_gp/red_bull_ring.png"
+  );
+  //load image first to make it fit the screen
+  let trackImage = new PIXI.Sprite(trackAsset);
+  app.renderer.resize(trackImage.width, trackImage.height);
+  document.body.appendChild(app.view);
+  //add image to stage
+  app.stage.addChild(trackImage);
+  drawLap();
 }
 
-async function drawAllPositions(ctx, track) {
+async function drawLap() {
+  let racingLine = new PIXI.Graphics();
   let data = await window.getExampleData.exampleDataJSON();
-  ctx.translate(620.875, 401.055); //this can be found in the map.ini file!
-  ctx.beginPath();
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  data.forEach((element, i) => {
-    let xPos = element.carCoordinatesX; //X
-    let ZPos = element.carCoordinatesZ; //Y
-    console.log(xPos, " ", ZPos);
-    if (i == 0) {
-      ctx.moveTo(xPos, ZPos);
-      ctx.lineTo(xPos, ZPos);
-    } else {
-      ctx.lineTo(xPos, ZPos);
-    }
+  racingLine.position.x = 620.875;
+  racingLine.position.y = 401.055;
+  const start = data[0];
+  racingLine.lineStyle(2, 0xff0000, 1);
+  racingLine.moveTo(start.carCoordinatesX, start.carCoordinatesZ);
+
+  data.forEach((element) => {
+    racingLine.lineTo(element.carCoordinatesX, element.carCoordinatesZ);
   });
-  ctx.stroke();
+
+  app.stage.addChild(racingLine);
 }
+
+drawTrack();
