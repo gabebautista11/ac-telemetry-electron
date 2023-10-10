@@ -112,7 +112,11 @@ client.on("RT_CAR_INFO", (data) => {
   carData = data;
   lapData.addData(carData);
   try {
-    trackWindow.webContents.send("carUpdate", carData, lapData.lapData.length);
+    trackWindow.webContents.send(
+      "carUpdate",
+      carData,
+      lapData.getLapData.length
+    );
   } catch (e) {
     console.log("ERROR");
   }

@@ -2,7 +2,7 @@ class LapData {
   constructor() {
     this.lapData = [];
   }
-  get lapData() {
+  get getLapData() {
     return this.lapData;
   }
 
@@ -15,4 +15,4 @@ class LapData {
   }
 }
 
-export { LapData };
+module.exports = { LapData };
