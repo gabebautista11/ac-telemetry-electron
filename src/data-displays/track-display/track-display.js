@@ -31,20 +31,36 @@ async function drawLap() {
   app.stage.addChild(racingLineGraphics);
 }
 
+let prevPointX = 0;
+let prevPointZ = 0;
+
 function realTimeDraw(data) {
   // if (num == 0) {
   //   racingLineGraphics.moveTo(data.carCoordinatesX, data.carCoordinatesZ);
   //   num++;
   // }
   //racingLineGraphics.lineTo(data.carCoordinatesX, data.carCoordinatesZ);
-  racingLineGraphics.beginFill(0xff00ff);
-  racingLineGraphics.drawCircle(data.carCoordinatesX, data.carCoordinatesZ, 2);
-  racingLineGraphics.endFill();
+  if (
+    prevPointX.toFixed(3) != data.carCoordinatesX.toFixed(3) &&
+    prevPointZ.toFixed(3) != data.carCoordinatesZ.toFixed(3)
+  ) {
+    console.log("Drawing point");
+    racingLineGraphics.beginFill(0xff00ff);
+    racingLineGraphics.drawCircle(
+      data.carCoordinatesX,
+      data.carCoordinatesZ,
+      2
+    );
+    racingLineGraphics.endFill();
+  } else {
+    console.log("car not moving, not drawing point");
+  }
 }
 
-window.carDataAPI.getCarData((event, data) => {
-  console.log(data);
+window.carDataAPI.getCarData((event, data, id) => {
   realTimeDraw(data);
+  prevPointX = data.carCoordinatesX;
+  prevPointZ = data.carCoordinatesX;
 });
 
 drawTrack();
