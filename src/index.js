@@ -2,8 +2,8 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const ACRemoteTelemetryClient = require("ac-remote-telemetry-client");
 const fs = require("fs");
-
 const { getCarData } = require("./data-displays/track-display/trackController");
+const { LapData } = require("./lap-objects");
 
 let graphWindow;
 let trackWindow;
@@ -101,6 +101,7 @@ app.on("activate", () => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const client = new ACRemoteTelemetryClient();
+const lapData = new LapData();
 
 let carData = {};
 // Implement desired listeners
@@ -109,6 +110,7 @@ client.on("HANDSHAKER_RESPONSE", (data) => {});
 
 client.on("RT_CAR_INFO", (data) => {
   carData = data;
+  lapData.addData(carData);
   try {
     trackWindow.webContents.send("carUpdate", carData);
   } catch (e) {
