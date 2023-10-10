@@ -109,7 +109,11 @@ client.on("HANDSHAKER_RESPONSE", (data) => {});
 
 client.on("RT_CAR_INFO", (data) => {
   carData = data;
-  trackWindow.webContents.send("carUpdate", carData);
+  try {
+    trackWindow.webContents.send("carUpdate", carData);
+  } catch (e) {
+    console.log("ERROR");
+  }
 });
 
 client.on("RT_LAP", (data) => {
