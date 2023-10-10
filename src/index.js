@@ -5,6 +5,9 @@ const fs = require("fs");
 
 const { getCarData } = require("./data-displays/track-display/trackController");
 
+let graphWindow;
+let trackWindow;
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -27,12 +30,12 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  trackWindow();
+  createTrackWindow();
   // graphWindow();
 };
 
-const trackWindow = () => {
-  const trackWindow = new BrowserWindow({
+const createTrackWindow = () => {
+  trackWindow = new BrowserWindow({
     width: 800,
     height: 800,
     webPreferences: {
@@ -51,8 +54,8 @@ const trackWindow = () => {
   trackWindow.webContents.openDevTools();
 };
 
-const graphWindow = () => {
-  const graphWindow = new BrowserWindow({
+const createGraphWindow = () => {
+  graphWindow = new BrowserWindow({
     width: 800,
     height: 800,
     webPreferences: {
@@ -114,7 +117,7 @@ client.on("RT_LAP", (data) => {
   //console.log(data);
 });
 
-ipcMain.handle("connectToServer", () => {
+ipcMain.on("connect-to-server", () => {
   console.log("connect to server received");
   // Start listening
   client.start();
