@@ -100,13 +100,14 @@ app.on("activate", () => {
 
 const client = new ACRemoteTelemetryClient();
 
+let carData = {};
 // Implement desired listeners
 //call client.handshake every time we connect to a server
 client.on("HANDSHAKER_RESPONSE", (data) => {});
 
 client.on("RT_CAR_INFO", (data) => {
-  console.log(data);
-  mainWindow.webContents.send("car-data-update", data);
+  carData = data;
+  trackWindow.webContents.send("carUpdate", carData);
 });
 
 client.on("RT_LAP", (data) => {

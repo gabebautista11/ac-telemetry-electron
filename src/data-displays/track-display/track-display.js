@@ -19,7 +19,7 @@ async function drawLap() {
   racingLine.position.x = 620.875;
   racingLine.position.y = 401.055;
   const start = data[0];
-  racingLine.lineStyle(2, 0xff0000, 1);
+  racingLine.lineStyle(3, 0xff0000, 1);
   racingLine.moveTo(start.carCoordinatesX, start.carCoordinatesZ);
 
   data.forEach((element) => {
@@ -28,5 +28,9 @@ async function drawLap() {
 
   app.stage.addChild(racingLine);
 }
+
+window.carDataAPI.getCarData((event, data) => {
+  console.log(data);
+});
 
 drawTrack();

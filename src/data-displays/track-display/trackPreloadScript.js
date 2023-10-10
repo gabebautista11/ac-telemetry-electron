@@ -6,3 +6,7 @@ contextBridge.exposeInMainWorld("getExampleData", {
     return await ipcRenderer.invoke("getCarDataJson");
   },
 });
+
+contextBridge.exposeInMainWorld("carDataAPI", {
+  getCarData: (callback) => ipcRenderer.on("carUpdate", callback),
+});
