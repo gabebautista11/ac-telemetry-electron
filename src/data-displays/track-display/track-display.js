@@ -1,36 +1,48 @@
 app = new PIXI.Application({ background: 0xb2beb5, antialias: true });
+document.body.appendChild(app.view);
+let racingLineGraphics = new PIXI.Graphics();
+racingLineGraphics.lineStyle(3, 0xff0000, 1);
+let trackImage = new PIXI.Sprite();
 
+let num = 0;
 async function drawTrack() {
   let trackAsset = await PIXI.Assets.load(
     "../../../tracks/red_bull_ring_gp/red_bull_ring.png"
   );
   //load image first to make it fit the screen
-  let trackImage = new PIXI.Sprite(trackAsset);
+  trackImage = new PIXI.Sprite(trackAsset);
   app.renderer.resize(trackImage.width, trackImage.height);
-  document.body.appendChild(app.view);
-  //add image to stage
-  app.stage.addChild(trackImage);
-  drawLap();
+  racingLineGraphics.position.x = 620.875;
+  racingLineGraphics.position.y = 401.055;
+  //app.stage.addChild(trackImage);
+  //drawLap();
+  app.stage.addChild(racingLineGraphics);
 }
 
 async function drawLap() {
-  let racingLine = new PIXI.Graphics();
   let data = await window.getExampleData.exampleDataJSON();
-  racingLine.position.x = 620.875;
-  racingLine.position.y = 401.055;
   const start = data[0];
-  racingLine.lineStyle(3, 0xff0000, 1);
-  racingLine.moveTo(start.carCoordinatesX, start.carCoordinatesZ);
+
+  racingLineGraphics.moveTo(start.carCoordinatesX, start.carCoordinatesZ);
 
   data.forEach((element) => {
-    racingLine.lineTo(element.carCoordinatesX, element.carCoordinatesZ);
+    racingLineGraphics.lineTo(element.carCoordinatesX, element.carCoordinatesZ);
   });
+  app.stage.addChild(racingLineGraphics);
+}
 
-  app.stage.addChild(racingLine);
+function realTimeDraw(data) {
+  if (num == 0) {
+    racingLineGraphics.moveTo(data.carCoordinatesX, data.carCoordinatesZ);
+    num++;
+  }
+  racingLineGraphics.lineTo(data.carCoordinatesX, data.carCoordinatesZ);
+  racingLineGraphics.moveTo(data.carCoordinatesX, data.carCoordinatesZ);
 }
 
 window.carDataAPI.getCarData((event, data) => {
   console.log(data);
+  realTimeDraw(data);
 });
 
 drawTrack();
