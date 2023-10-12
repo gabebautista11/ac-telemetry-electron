@@ -1,39 +1,57 @@
-let container = document.getElementById("container");
+let speedData = [null];
+let labels = [null];
 
-// Declare the chart dimensions and margins.
-const width = 640;
-const height = 400;
-const marginTop = 20;
-const marginRight = 20;
-const marginBottom = 30;
-const marginLeft = 40;
+createSpeedGraph();
+createGearGraph();
 
-// Declare the x (horizontal position) scale.
-const x = d3
-  .scaleUtc()
-  .domain([new Date("2023-01-01"), new Date("2024-01-01")])
-  .range([marginLeft, width - marginRight]);
+window.carDataAPI.getCarData((event, data, id) => {
+  //console.log(data);
+  labels.push(data.carPositionNormalized);
+  graphSpeed(data.speedKmh);
+  graphGear();
+});
 
-// Declare the y (vertical position) scale.
-const y = d3
-  .scaleLinear()
-  .domain([0, 100])
-  .range([height - marginBottom, marginTop]);
+function createSpeedGraph() {
+  const ctx = document.getElementById("speed-graph");
 
-// Create the SVG container.
-const svg = d3.create("svg").attr("width", width).attr("height", height);
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Speed (KPH)",
+          data: speedData,
+          borderWidth: 4,
+        },
+      ],
+    },
+    options: {
+      pointRadius: 0,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: "Speed (km/h)",
+          },
+          beginAtZero: true,
+        },
+        x: {
+          title: {
+            display: true,
+            text: "Position On Track",
+          },
+          ticks: {
+            display: false,
+          },
+        },
+      },
+    },
+  });
+}
 
-// Add the x-axis.
-svg
-  .append("g")
-  .attr("transform", `translate(0,${height - marginBottom})`)
-  .call(d3.axisBottom(x));
+function createGearGraph() {}
 
-// Add the y-axis.
-svg
-  .append("g")
-  .attr("transform", `translate(${marginLeft},0)`)
-  .call(d3.axisLeft(y));
-
-// Append the SVG element.
-container.append(svg.node());
+function graphSpeed(speed) {
+  speedData.push(speed);
+}
