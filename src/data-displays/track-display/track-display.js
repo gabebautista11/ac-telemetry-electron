@@ -58,6 +58,7 @@ function realTimeDraw(data) {
 }
 
 window.carDataAPI.getCarData((event, data, id) => {
+  //console.log(data);
   realTimeDraw(data);
   prevPointX = data.carCoordinatesX;
   prevPointZ = data.carCoordinatesX;

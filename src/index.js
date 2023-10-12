@@ -30,7 +30,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 
   createTrackWindow();
-  // graphWindow();
+  createGraphWindow();
 };
 
 const createTrackWindow = () => {
@@ -111,6 +111,7 @@ client.on("HANDSHAKER_RESPONSE", (data) => {});
 client.on("RT_CAR_INFO", (data) => {
   carData = data;
   lapData.addData(carData);
+  console.log(data.carPositionNormalized);
   try {
     trackWindow.webContents.send(
       "carUpdate",
